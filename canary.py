@@ -19,30 +19,12 @@ def alive():
 @app.route('/info', methods=['GET'])
 def info():
     info = {}
-    info['app_name'] = "No app name specified."
-    info['version'] = "No version specified."
-    info['build_date'] = "No build date specified."
-    info['build_host'] = "No build host specified."
-    info['git_url'] = "No git url specified."
-    info['branch'] = "No branch specified."
-
-    if "NAME" in os.environ:
-        info['app_name'] = os.environ['NAME']
-
-    if "VERSION" in os.environ:
-        info['version'] = os.environ['VERSION']
-
-    if "DATE" in os.environ:
-        info['build_date'] = os.environ['DATE']
-
-    if "HOST" in os.environ:
-        info['build_host'] = os.environ['HOST']
-
-    if "GIT" in os.environ:
-        info['git_url'] = os.environ['GIT']
-
-    if "BRANCH" in os.environ:
-        info['branch'] = os.environ['BRANCH']
+    info['app_name'] = "No app name specified." if not "NAME" in os.environ else os.environ['NAME']
+    info['version'] = "No version specified." if not "VERSION" in os.environ else os.environ['VERSION']
+    info['build_date'] = "No build date specified." if not "DATE" in os.environ else os.environ['DATE']
+    info['build_host'] = "No build host specified." if not "HOST" in os.environ else os.environ['HOST']
+    info['git_url'] = "No git url specified." if not "GIT" in os.environ else os.environ['GIT']
+    info['branch'] = "No branch specified." if not "BRANCH" in os.environ else os.environ['BRANCH']
 
     return jsonify(info), 200
 
