@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 import os
 
 app = Flask(__name__)
@@ -19,12 +19,12 @@ def alive():
 @app.route('/info', methods=['GET'])
 def info():
     info = {}
-    info['app_name'] = "No app name specified." if not "NAME" in os.environ else os.environ['NAME']
-    info['version'] = "No version specified." if not "VERSION" in os.environ else os.environ['VERSION']
-    info['build_date'] = "No build date specified." if not "DATE" in os.environ else os.environ['DATE']
-    info['build_host'] = "No build host specified." if not "HOST" in os.environ else os.environ['HOST']
-    info['git_url'] = "No git url specified." if not "GIT" in os.environ else os.environ['GIT']
-    info['branch'] = "No branch specified." if not "BRANCH" in os.environ else os.environ['BRANCH']
+    info['app_name'] = os.environ['NAME'] if "NAME" in os.environ else "No app name specified."
+    info['version'] = os.environ['VERSION'] if "VERSION" in os.environ else "No version specified."    
+    info['build_date'] = os.environ['DATE'] if "DATE" in os.environ else "No build date specified."    
+    info['build_host'] = os.environ['HOST'] if "HOST" in os.environ else "No build host specified."    
+    info['git_url'] = os.environ['GIT'] if "GIT" in os.environ else "No Git URL specified."    
+    info['branch'] = os.environ['BRANCH'] if "BRANCH" in os.environ else "No branch specified."
 
     return jsonify(info), 200
 
@@ -33,6 +33,10 @@ def canary():
     canary = {}
     canary['canary'] = "Chirp!"
     return jsonify(canary), 200
+
+@app.route('/word', methods=['GET'])
+def word():
+    return redirect("https://www.youtube.com/watch?v=2WNrx2jq184", code=302)
 
 @app.route('/', methods=['GET'])
 def index():
